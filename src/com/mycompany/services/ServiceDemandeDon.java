@@ -192,27 +192,7 @@ public class ServiceDemandeDon {
     }
 
     
-public void fetchDonationPDF() {
-     public PDFGeneratorForm() {
-        // Création du document PDF
-        PDFDocument pdf = new PDFDocument();
-        pdf.setPageSize(PDFDocument.A4);
-        pdf.setTitle("Mon document PDF");
 
-        // Ajout du contenu au PDF
-        PDFGraphics graphics = pdf.createGraphics();
-        graphics.drawString("Hello, PDF!", 50, 50);
-        graphics.dispose();
-
-        // Enregistrement du document PDF sur le périphérique
-        String fileName = "mon_document.pdf";
-        String filePath = FileSystemStorage.getInstance().getAppHomePath() + fileName;
-        pdf.saveToFile(filePath);
-
-        // Ouverture du fichier PDF dans une application externe
-        Display.getInstance().execute(filePath);
-    }
-}
 
 
 

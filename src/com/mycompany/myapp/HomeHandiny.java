@@ -33,7 +33,7 @@ import com.mycompany.services.ServiceDon;
  *
  * @author ASUS
  */
-public class HomeHandiny extends BaseForm{
+public class HomeHandiny extends Form{
 Form current;
 private Resources theme;
     public HomeHandiny() {
@@ -69,7 +69,7 @@ BUTmodifier.addActionListener((evt) -> new Modifierdon(current,d).show());*/
 BUTsupprimer.addActionListener((evt) -> new ShowdonCrud(current).show());
 
 BUTaffiched.addActionListener((evt) -> new Showdemandedon(current).show());
-BUTpdf.addActionListener((evt) -> ServiceDemandeDon.getInstance().fetchDonationPDF());
+//BUTpdf.addActionListener((evt) -> ServiceDemandeDon.getInstance().fetchDonationPDF());
 
        //BUTpdf.addActionListener((evt) -> new StatistiquePieForm(res));
 Button BtnFavDon= new Button("Mes favoris");
