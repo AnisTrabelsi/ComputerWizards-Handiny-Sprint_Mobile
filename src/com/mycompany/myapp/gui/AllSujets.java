@@ -74,7 +74,7 @@ public class AllSujets extends Form {
             saveButton.setIcon(FontImage.createMaterial(FontImage.MATERIAL_SAVE, saveButton.getUnselectedStyle()));
             detailsButton.addActionListener(e -> new detailsSujet(sujet, this, res).show());
             Sauvegardes s = new Sauvegardes();
-            detailsButton.addActionListener(e -> s.addSauvegarde(14, sujet.getIdSujet()));
+            saveButton.addActionListener(e -> s.addSauvegarde(14, sujet.getIdSujet()));
             commentButton.addActionListener(e-> new AjoutCommentaire(sujet, this, res).show());
             buttonsContainer.addAll(commentButton, detailsButton, saveButton);
 

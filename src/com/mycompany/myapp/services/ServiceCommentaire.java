@@ -37,7 +37,7 @@ public class ServiceCommentaire {
     //ajout 
     public void ajoutCommentaire(Commentaire commentaire) {
 
-        String url = Statics.BASE_URL + "/commentaire/addcommentairejson?contenuCommentaire=" + commentaire.getContenuCommentaire() + "&idSujet=" + commentaire.getIdSujet() + "&pieceJointe=" + commentaire.getPiecejointe() + "&id_user" + commentaire.getId_utilisateur();
+        String url = Statics.BASE_URL + "/commentaire/addcommentairejson?contenuCommentaire=" + commentaire.getContenuCommentaire() + "&idSujet=" + commentaire.getIdSujet() + "&pieceJointe=" + "load.png" + "&id_user=" + commentaire.getId_utilisateur();
 
         req.setUrl(url);
         req.addResponseListener((e) -> {

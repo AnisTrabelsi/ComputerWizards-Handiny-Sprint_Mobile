@@ -39,6 +39,9 @@ public class Commentaire {
         this.idSujet = idSujet;
     }
 
+    public Commentaire() {
+    }
+
     public int getIdCommentaire() {
         return idCommentaire;
     }

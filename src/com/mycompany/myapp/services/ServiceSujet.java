@@ -14,6 +14,7 @@ import com.codename1.l10n.DateFormat;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
+import com.mycompany.myapp.entities.Commentaire;
 import com.mycompany.myapp.entities.Sujet;
 import com.mycompany.myapp.utils.Statics;
 import java.io.IOException;
@@ -30,6 +31,7 @@ public class ServiceSujet {
     //singleton 
     public static ServiceSujet instance = null;
     public ArrayList<Sujet> sujets;
+    public ArrayList<Commentaire> commentaires;
     public static boolean resultOk = true;
 
     //initilisation connection request 
@@ -171,6 +173,46 @@ public class ServiceSujet {
             }
         }
         return null;
+    }
+    
+    public ArrayList<Commentaire> parseCommentaires(String jsonText) {
+    try {
+        ArrayList<Commentaire> commentaires = new ArrayList<>();
+        JSONParser parser = new JSONParser();
+        Map<String, Object> commentairesListJson = parser.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+
+        java.util.List<Map<String, Object>> list = (java.util.List<Map<String, Object>>) commentairesListJson.get("root");
+        for (Map<String, Object> obj : list) {
+            Commentaire commentaire = new Commentaire();
+            float idCommentaire = Float.parseFloat(obj.get("idCommentaire").toString());
+            commentaire.setIdCommentaire((int) idCommentaire);
+            commentaire.setContenuCommentaire(obj.get("contenuCommentaire").toString());
+            commentaire.setPiecejointe(obj.get("piecejointe").toString());
+
+            commentaires.add(commentaire);
+        }
+
+        return commentaires;
+    } catch (IOException ex) {
+        System.out.println(ex.getMessage());
+    }
+    return null;
+}
+
+
+    public ArrayList<Commentaire> showCommentairesBySujet(Sujet sujet) {
+        String url = Statics.BASE_URL + "/sujet/listecommentairesjson?idSujet=" + sujet.getIdSujet();
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                commentaires = parseCommentaires(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return commentaires;
     }
 
 }

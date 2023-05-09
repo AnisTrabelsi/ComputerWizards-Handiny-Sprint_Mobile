@@ -20,13 +20,7 @@ import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.entities.Sujet;
 import java.io.IOException;
 import java.io.OutputStream;
-import com.codename1.io.ConnectionRequest;
-import java.net.URI;
-import java.net.URISyntaxException;
 import com.codename1.ext.filechooser.FileChooser;
-import com.codename1.l10n.DateFormat;
-import com.codename1.l10n.ParseException;
-import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.Command;
 import com.codename1.ui.Dialog;
@@ -48,6 +42,7 @@ public class AjoutCommentaire extends Form {
         Label labelComment = new Label("Contenu de commentaire :");
         TextField contenuCommentaire = new TextField("", "Contenu de commentaire");
         Button fileButton = new Button("Ajouter une pièce jointe");
+
         fileButton.setTextPosition(Label.BOTTOM);
         CheckBox multiSelect = new CheckBox("Multi-select");
         fileButton.addActionListener((ActionEvent e) -> {
@@ -120,15 +115,15 @@ public class AjoutCommentaire extends Form {
             }
         });
         Date date = new Date();
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    String formattedDate = dateFormat.format(date);
-                    System.out.println(formattedDate);
-                    Date datef = null;
-                    try {
-                        datef = dateFormat.parse(formattedDate);
-                    } catch (ParseException ex) {
-                        System.out.println(ex);
-                    }
+        /*DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(date);
+        System.out.println(formattedDate);
+        Date datef = null;
+        try {
+            datef = dateFormat.parse(formattedDate);
+        } catch (ParseException ex) {
+            System.out.println(ex);
+        }*/
         Button btnValider = new Button("Commenter");
         btnValider.addActionListener(new ActionListener() {
             @Override
@@ -136,8 +131,9 @@ public class AjoutCommentaire extends Form {
                 if (contenuCommentaire.getText().length() == 0) {
                     Dialog.show("Alert", "Le contenu ne doit pas être vide", new Command("OK"));
                 } else {
-                    Commentaire commentaire = new Commentaire();
-
+                    System.out.println(fileButton.getBadgeText().toString());
+                    String badgeText = fileButton.getBadgeText().toString();
+                    Commentaire commentaire = new Commentaire(contenuCommentaire.getText(), badgeText, 0, date, 14, sujet.getIdSujet());
                     ServiceCommentaire.getInstance().ajoutCommentaire(commentaire);
                     Dialog.show("Alert", "Le commentaire a été ajouté avec succès", "ok", null);
                 }
@@ -146,22 +142,20 @@ public class AjoutCommentaire extends Form {
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, (evt) -> {
             aThis.showBack();
         });
-        addAll(labelComment, contenuCommentaire, fileButton);
+        addAll(labelComment, contenuCommentaire, fileButton, btnValider);
     }
 
-    protected String saveFileToDevice(String hi, String ext) throws IOException {
-        ConnectionRequest connectionRequest;
-        connectionRequest = new ConnectionRequest();
-        URI uri;
-        try {
-            uri = new URI(hi);
-            String path = uri.getPath();
-            int index = hi.lastIndexOf("/");
-            hi = hi.substring(index + 1);
-            return hi;
-        } catch (URISyntaxException ex) {
+    protected String saveFileToDevice(String file, String ext) throws IOException {
+        String namePic = null;
+        if (file.startsWith("file://")) {
+            file = file.substring(7);
+            int lastIndexPeriod = file.lastIndexOf(".");
+            if (lastIndexPeriod != -1) {
+                namePic = file.substring(file.lastIndexOf("/") + 1);
+
+            }
         }
-        return "null";
+        return namePic;
     }
 
 }
