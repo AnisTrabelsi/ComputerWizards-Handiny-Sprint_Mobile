@@ -15,6 +15,7 @@ import com.codename1.io.Log;
 import com.codename1.ui.Button;
 import com.codename1.ui.CN;
 import com.codename1.ui.CheckBox;
+import com.codename1.ui.ComboBox;
 import com.codename1.ui.Command;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.FontImage;
@@ -42,8 +43,19 @@ public class Modifierdon extends Form {
     public Modifierdon(Form previous, don r) {
         setTitle("Modifier don");
         setLayout(BoxLayout.y());
-        TextField Type = new TextField(r.getType(), "Type");
-        Type.getStyle().setFgColor(154245);
+       ComboBox<String> typePicker = new ComboBox<>();
+typePicker.setHint("Select a type");
+typePicker.addItem("Fauteuils roulants");
+typePicker.addItem("Prothèses");
+typePicker.addItem("Appareils auditifs");
+typePicker.addItem("Lunettes et lentilles de contact");
+typePicker.addItem("Béquilles");
+typePicker.addItem("Équipement de soins à domicile");
+typePicker.addItem("Rampes d accès");
+typePicker.addItem("Appareils de levage");
+typePicker.addItem("Sièges de bain");
+typePicker.addItem("autre");
+typePicker.setSelectedIndex(0);   
         TextField Description = new TextField(r.getDescription(), "Description");
         Description.getStyle().setFgColor(154245);
         Button photoButton = new Button("Ajouter une Image");
@@ -118,11 +130,14 @@ public class Modifierdon extends Form {
                 });
             }
         });
+        String Type = typePicker.getSelectedItem();
         Button btnValider = new Button("Valider");
         btnValider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                if ((Type.getText().length() == 0) || (Description.getText().length() == 0)) {
+                  String Type = typePicker.getSelectedItem();
+                  System.out.println(Type);
+                if ((Type.length() == 0) || (Description.getText().length() == 0)) {
                     Dialog.show("Alert", "Please fill all the fields", new Command("OK"));
                 } else {
                     InfiniteProgress ip = new InfiniteProgress();
@@ -130,7 +145,7 @@ public class Modifierdon extends Form {
                     try {
                         r.setId_don((int) r.getId_don());
                         r.setId_utilisateur((int) r.getId_utilisateur());
-                        r.setType(Type.getText());
+                        r.setType(Type);
                         r.setImage_don(photoButton.getBadgeText().toString());
                         r.setDescription(Description.getText());
                         // r.setDate_ajout(date_ajout);
@@ -159,7 +174,7 @@ public class Modifierdon extends Form {
            // new com.mycompany.myapp.HomeHandiny().show();
             new ShowdonCrud(new com.mycompany.myapp.HomeHandiny()).show();
         });
-        addAll(Type, Description, photoButton, btnValider);
+        addAll(typePicker, Description, photoButton, btnValider);
     }
 
     protected String saveFileToDevice(String hi, String ext) throws IOException {

@@ -5,8 +5,6 @@
  */
 package com.mycompany.myapp;
 
-
-
 import Don.Ajouterdon;
 import Don.Modifierdon;
 import Don.Showdemandedon;
@@ -28,58 +26,52 @@ import com.mycomany.entities.don;
 import com.mycompany.services.ServiceDemandeDon;
 import com.mycompany.services.ServiceDon;
 
-
 /**
  *
  * @author ASUS
  */
-public class HomeHandiny extends Form{
-Form current;
-private Resources theme;
+public class HomeHandiny extends Form {
+
+    Form current;
+    String c;
+    private Resources theme;
+
     public HomeHandiny() {
-                current=this; //Back 
-                
-                add(new Label("Bienvenue sur notre application mobile Handiny"));
+        current = this; //Back 
+
+        add(new Label("Bienvenue sur notre application mobile Handiny"));
         setTitle("Handiny");
         setLayout(BoxLayout.y());
-       EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(600, 500, 0xff0000ff), true);
-String imagePath = "http://localhost/mobile/logo.png"; // Chemin relatif de l'image dans votre projet
-Image image = URLImage.createToStorage(placeholder, "image_key2", imagePath);
-ImageViewer img1 = new ImageViewer(image);
-add(img1);
-                
-    
-  
-    Button BUTaffiche= new Button("afficher don");
-    Button BUTajouter= new Button("ajouter don");
-     Button BUTmodifier= new Button("modifier don");
-     Button BUTsupprimer= new Button("supprimer ou modifier don");
-      Button BUTpdf= new Button("pdf don");
+        EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(600, 500, 0xff0000ff), true);
+        String imagePath = "http://localhost/mobile/logo.png"; // Chemin relatif de l'image dans votre projet
+        Image image = URLImage.createToStorage(placeholder, "image_key2", imagePath);
+        ImageViewer img1 = new ImageViewer(image);
+        add(img1);
 
-      
-      
-      
-  Button BUTaffiched= new Button("afficher demande don");
+        Button BUTaffiche = new Button("afficher don");
+        Button BUTajouter = new Button("ajouter don");
+        Button BUTmodifier = new Button("modifier don");
+        Button BUTsupprimer = new Button("supprimer ou modifier don");
+        Button BUTpdf = new Button("pdf don");
 
-BUTaffiche.addActionListener((evt) -> new Showdon(current).show());
-BUTajouter.addActionListener((evt) -> new Ajouterdon(current).show());
-/*don d=new don();
+        Button BUTaffiched = new Button("afficher demande don");
+
+        BUTaffiche.addActionListener((evt) -> new Showdon(current).show());
+        BUTajouter.addActionListener((evt) -> new Ajouterdon(current).show());
+        /*don d=new don();
 d.setId_don(402);
 BUTmodifier.addActionListener((evt) -> new Modifierdon(current,d).show());*/
-BUTsupprimer.addActionListener((evt) -> new ShowdonCrud(current).show());
+        BUTsupprimer.addActionListener((evt) -> new ShowdonCrud(current).show());
 
-BUTaffiched.addActionListener((evt) -> new Showdemandedon(current).show());
-//BUTpdf.addActionListener((evt) -> ServiceDemandeDon.getInstance().fetchDonationPDF());
+        BUTaffiched.addActionListener((evt) -> new Showdemandedon(current, 0, c).show());
 
-       //BUTpdf.addActionListener((evt) -> new StatistiquePieForm(res));
-Button BtnFavDon= new Button("Mes favoris");
-BtnFavDon.addActionListener((evt) -> new affichageFavorisDons(current).show());
+        Button BtnFavDon = new Button("Mes favoris");
+        BtnFavDon.addActionListener((evt) -> new affichageFavorisDons(current).show());
 
+        addAll(BUTaffiche, BUTajouter, BUTsupprimer, BUTaffiched, BtnFavDon);
 
-        addAll(BUTaffiche,BUTajouter,BUTsupprimer,BUTaffiched,BUTpdf,BtnFavDon);
-    
-        getToolbar().addCommandToOverflowMenu("Exit", null, 
-             ev->Display.getInstance().exitApplication());   
+        getToolbar().addCommandToOverflowMenu("Exit", null,
+                ev -> Display.getInstance().exitApplication());
     }
-     
+
 }

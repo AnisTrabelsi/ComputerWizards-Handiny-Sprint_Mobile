@@ -34,7 +34,7 @@ import java.net.URISyntaxException;
  * @author ASUS
  */
 public class AddReservationdon extends Form  {
-
+String c;
     public AddReservationdon(Form previous, com.mycomany.entities.don r) {
         setTitle("Add demande_don");
         setLayout(BoxLayout.y());
@@ -128,7 +128,7 @@ public class AddReservationdon extends Form  {
                         com.mycomany.entities.demande_don res = new com.mycomany.entities.demande_don(Integer.parseInt("30"), r.getId_don(), photoButton.getBadgeText().toString(),r.getType(),Remarques.getText());
                         if (ServiceDemandeDon.getInstance().Adddemande_don(res)) {
                             Dialog.show("Success", "Connection accepted", new Command("OK"));
-                             new Showdemandedon(new com.mycompany.myapp.HomeHandiny()).show();
+                             new Showdemandedon(new com.mycompany.myapp.HomeHandiny(),0,c).show();
                         } else {
                             Dialog.show("ERROR", "Server error", new Command("OK"));
                         }

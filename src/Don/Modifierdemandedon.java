@@ -39,7 +39,7 @@ import static jdk.nashorn.internal.objects.NativeJava.type;
  * @author ASUS
  */
 public class Modifierdemandedon extends Form {
-    
+    String c;
     public Modifierdemandedon(Form previous, demande_don r) {
         setTitle("Modifier demande_don");
         setLayout(BoxLayout.y());
@@ -147,11 +147,11 @@ public class Modifierdemandedon extends Form {
                         /*  new com.mycompany.myapp.HomeHandiny().show();
                         new Showdemande_donCrud(previous).show();*/
                         
-                        new Showdemandedon(new com.mycompany.myapp.HomeHandiny()).show();
+                        new Showdemandedon(new com.mycompany.myapp.HomeHandiny(),0,c).show();
                     } catch (NumberFormatException e) {
                         Dialog.show("ERROR", "Status must be a number", new Command("OK"));
                         // new com.mycompany.myapp.HomeHandiny().show();
-                        new Showdemandedon(previous).show();
+                        new Showdemandedon(previous,0,c).show();
                     }
                     
                 }
@@ -159,7 +159,7 @@ public class Modifierdemandedon extends Form {
         });
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, (evt) -> {
             // new com.mycompany.myapp.HomeHandiny().show();
-            new Showdemandedon(new com.mycompany.myapp.HomeHandiny()).show();
+            new Showdemandedon(new com.mycompany.myapp.HomeHandiny(),0,c).show();
         });
         addAll(Remarques, photoButton, btnValider);
     }

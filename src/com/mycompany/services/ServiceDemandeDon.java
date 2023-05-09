@@ -146,9 +146,9 @@ public class ServiceDemandeDon {
                 float id_demande_don = Float.parseFloat(obj.get("idDemandeDon").toString());
                 /*  v.setId((int)id);
                 v.setDestination(obj.get("Dest").toString());
-                v.setNom_Voyage(obj.get("NomVoy").toString());
-                v.setDuree_Voyage(obj.get("Duree").toString());
-                v.setPrix_Voyage((int) obj.get("Prix"));
+                v.setNom_demande_don(obj.get("NomVoy").toString());
+                v.setDuree_demande_don(obj.get("Duree").toString());
+                v.setPrix_demande_don((int) obj.get("Prix"));
                 v.setValabilite(obj.get("Valabilite").toString());
                 v.setImage(obj.get("image").toString());*/
                 demande_dons.add(r);
@@ -192,8 +192,266 @@ public class ServiceDemandeDon {
     }
 
     
+   public ArrayList<demande_don> order_By_typeJSON(int $id) 
+     {
+       ArrayList<demande_don> result = new ArrayList<>();
+        String url = Statics.BASE_URL + "/ordertypeJSON/" + $id;
+        req.setUrl(url);
+         System.out.println(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                JSONParser jsonp;
+                jsonp = new JSONParser();
+                try {
+                    //renvoi une map avec clé = root et valeur le reste
+                    Map<String, Object> mapdemande_don = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
 
+                    List<Map<String, Object>> listOfMaps = (List<Map<String, Object>>) mapdemande_don.get("root");
 
+                    for (Map<String, Object> obj : listOfMaps) {
+                        demande_don d = new demande_don();
 
+                        //float  id_don =  Float.parseFloat(obj.get("idDon").toString());
+                        float  id_demande_don =  Float.parseFloat(obj.get("idDemandeDon").toString());
+                        //float  id_utilisateur =  Float.parseFloat(obj.get("id_user").toString());
+                        String typeProduitDemande = obj.get("typeProduitDemande").toString();
+                        String justificatifHandicap = obj.get("justificatifHandicap").toString();
+                        String Remarques = obj.get("remarques").toString();
+                        // Date date_ajout = (Date) obj.get("dateAjout");
+                        String DateConverter = obj.get("dateDemande").toString().substring(obj.get("dateDemande").toString().indexOf("2"), obj.get("dateDemande").toString().lastIndexOf("T"));
+                        String etat = obj.get("etat").toString();
+
+                         d.setId_demande_don((int) id_demande_don);
+                        // d.setId_utilisateur((int) id_utilisateur);
+                        //d.setId_don((int)id_don);
+                        d.setType_produit_demande(typeProduitDemande);
+                        d.setJustificatif_handicap(justificatifHandicap);
+                        d.setRemarques(Remarques);
+                        d.setDate_demande(DateConverter);
+                        d.setEtat(etat);
+
+//                        String DateConverter=obj.get("date").toString().substring(obj.get("Date").toString().indexOf("timestamp")+10 , obj.get("Date").toString().lastIndexOf("}"));      
+                        //             Date currentTime = new Date(Double.valueOf(DateConverter).longValue() * 1000);
+                        //             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        //            String dateString = formatter.format(currentTime);
+                        //            v.setDate(dateString);
+                        result.add(d);
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        NetworkManager.getInstance().addToQueueAndWait(req);
+
+        return result;
+    }
+    
+    public ArrayList<demande_don> order_By_dateascJSON(int $id) 
+     {
+        ArrayList<demande_don> result = new ArrayList<>();
+        String url = Statics.BASE_URL + "/orderdatecroissantJSON/" +$id;
+        req.setUrl(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                JSONParser jsonp;
+                jsonp = new JSONParser();
+                try {
+                    //renvoi une map avec clé = root et valeur le reste
+                    Map<String, Object> mapdemande_don = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
+
+                    List<Map<String, Object>> listOfMaps = (List<Map<String, Object>>) mapdemande_don.get("root");
+
+                    for (Map<String, Object> obj : listOfMaps) {
+                        demande_don d = new demande_don();
+
+                        //float  id_don =  Float.parseFloat(obj.get("idDon").toString());
+                        float  id_demande_don =  Float.parseFloat(obj.get("idDemandeDon").toString());
+                        //float  id_utilisateur =  Float.parseFloat(obj.get("id_user").toString());
+                        String typeProduitDemande = obj.get("typeProduitDemande").toString();
+                        String justificatifHandicap = obj.get("justificatifHandicap").toString();
+                        String Remarques = obj.get("remarques").toString();
+                        // Date date_ajout = (Date) obj.get("dateAjout");
+                        String DateConverter = obj.get("dateDemande").toString().substring(obj.get("dateDemande").toString().indexOf("2"), obj.get("dateDemande").toString().lastIndexOf("T"));
+                        String etat = obj.get("etat").toString();
+
+                         d.setId_demande_don((int) id_demande_don);
+                        // d.setId_utilisateur((int) id_utilisateur);
+                        //d.setId_don((int)id_don);
+                        d.setType_produit_demande(typeProduitDemande);
+                        d.setJustificatif_handicap(justificatifHandicap);
+                        d.setRemarques(Remarques);
+                        d.setDate_demande(DateConverter);
+                        d.setEtat(etat);
+
+//                        String DateConverter=obj.get("date").toString().substring(obj.get("Date").toString().indexOf("timestamp")+10 , obj.get("Date").toString().lastIndexOf("}"));      
+                        //             Date currentTime = new Date(Double.valueOf(DateConverter).longValue() * 1000);
+                        //             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        //            String dateString = formatter.format(currentTime);
+                        //            v.setDate(dateString);
+                        result.add(d);
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        NetworkManager.getInstance().addToQueueAndWait(req);
+
+        return result;
+    }
+    
+    public ArrayList<demande_don> order_By_datedescJSON(int $id) 
+     {
+        ArrayList<demande_don> result = new ArrayList<>();
+        String url = Statics.BASE_URL + "/orderdatedecroissantJSON/" + $id;
+         System.out.println(url);
+        req.setUrl(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                JSONParser jsonp;
+                jsonp = new JSONParser();
+                try {
+                    //renvoi une map avec clé = root et valeur le reste
+                    Map<String, Object> mapdemande_don = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
+
+                    List<Map<String, Object>> listOfMaps = (List<Map<String, Object>>) mapdemande_don.get("root");
+
+                    for (Map<String, Object> obj : listOfMaps) {
+                        demande_don d = new demande_don();
+
+                        //float  id_don =  Float.parseFloat(obj.get("idDon").toString());
+                        float  id_demande_don =  Float.parseFloat(obj.get("idDemandeDon").toString());
+                        //float  id_utilisateur =  Float.parseFloat(obj.get("id_user").toString());
+                        String typeProduitDemande = obj.get("typeProduitDemande").toString();
+                        String justificatifHandicap = obj.get("justificatifHandicap").toString();
+                        String Remarques = obj.get("remarques").toString();
+                        // Date date_ajout = (Date) obj.get("dateAjout");
+                        String DateConverter = obj.get("dateDemande").toString().substring(obj.get("dateDemande").toString().indexOf("2"), obj.get("dateDemande").toString().lastIndexOf("T"));
+                        String etat = obj.get("etat").toString();
+
+                         d.setId_demande_don((int) id_demande_don);
+                        // d.setId_utilisateur((int) id_utilisateur);
+                        //d.setId_don((int)id_don);
+                        d.setType_produit_demande(typeProduitDemande);
+                        d.setJustificatif_handicap(justificatifHandicap);
+                        d.setRemarques(Remarques);
+                        d.setDate_demande(DateConverter);
+                        d.setEtat(etat);
+
+//                        String DateConverter=obj.get("date").toString().substring(obj.get("Date").toString().indexOf("timestamp")+10 , obj.get("Date").toString().lastIndexOf("}"));      
+                        //             Date currentTime = new Date(Double.valueOf(DateConverter).longValue() * 1000);
+                        //             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        //            String dateString = formatter.format(currentTime);
+                        //            v.setDate(dateString);
+                        result.add(d);
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        NetworkManager.getInstance().addToQueueAndWait(req);
+
+        return result;
+    }
+    
+    public ArrayList<demande_don> voyagesearch(int $id,String s) 
+     {
+        ArrayList<demande_don> result = new ArrayList<>();
+        String url = Statics.BASE_URL + "/searchdemandedon/" + $id +"?searchjson="+s;
+        req.setUrl(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                JSONParser jsonp;
+                jsonp = new JSONParser();
+                try {
+                    //renvoi une map avec clé = root et valeur le reste
+                    Map<String, Object> mapdemande_don = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
+
+                    List<Map<String, Object>> listOfMaps = (List<Map<String, Object>>) mapdemande_don.get("root");
+
+                    for (Map<String, Object> obj : listOfMaps) {
+                        demande_don d = new demande_don();
+
+                        //float  id_don =  Float.parseFloat(obj.get("idDon").toString());
+                        float  id_demande_don =  Float.parseFloat(obj.get("idDemandeDon").toString());
+                        //float  id_utilisateur =  Float.parseFloat(obj.get("id_user").toString());
+                        String typeProduitDemande = obj.get("typeProduitDemande").toString();
+                        String justificatifHandicap = obj.get("justificatifHandicap").toString();
+                        String Remarques = obj.get("remarques").toString();
+                        // Date date_ajout = (Date) obj.get("dateAjout");
+                        String DateConverter = obj.get("dateDemande").toString().substring(obj.get("dateDemande").toString().indexOf("2"), obj.get("dateDemande").toString().lastIndexOf("T"));
+                        String etat = obj.get("etat").toString();
+
+                         d.setId_demande_don((int) id_demande_don);
+                        // d.setId_utilisateur((int) id_utilisateur);
+                        //d.setId_don((int)id_don);
+                        d.setType_produit_demande(typeProduitDemande);
+                        d.setJustificatif_handicap(justificatifHandicap);
+                        d.setRemarques(Remarques);
+                        d.setDate_demande(DateConverter);
+                        d.setEtat(etat);
+
+//                        String DateConverter=obj.get("date").toString().substring(obj.get("Date").toString().indexOf("timestamp")+10 , obj.get("Date").toString().lastIndexOf("}"));      
+                        //             Date currentTime = new Date(Double.valueOf(DateConverter).longValue() * 1000);
+                        //             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        //            String dateString = formatter.format(currentTime);
+                        //            v.setDate(dateString);
+                        result.add(d);
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        NetworkManager.getInstance().addToQueueAndWait(req);
+
+        return result;
+    }
+
+    
+      public void Qrcode(int $id) {
+        String url = Statics.BASE_URL + "/QRcodeJSON/"+$id;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                demande_dons = parsedemande_dons(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+      
+    }
+
+      
+       public void PDF() {
+        String url = Statics.BASE_URL + "/pdf/dons";
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                demande_dons = parsedemande_dons(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+      
+    }
 
 }

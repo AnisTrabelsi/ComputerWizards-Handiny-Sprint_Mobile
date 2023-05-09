@@ -7,6 +7,8 @@ package Don;
 
 import com.codename1.components.ImageViewer;
 import com.codename1.components.MultiButton;
+import com.codename1.io.FileSystemStorage;
+import com.codename1.io.Log;
 import com.codename1.l10n.DateFormat;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
@@ -26,10 +28,18 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.RoundRectBorder;
 import com.codename1.ui.plaf.Style;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.mycompany.myapp.HomeHandiny;
+import com.mycompany.services.ServiceDemandeDon;
 import com.mycompany.services.ServiceDon;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -60,9 +70,14 @@ public class Showdon extends Form {
         searchField.setUIID("SearchTextField"); // Appliquer un UIID personnalisé pour éviter les styles par défaut
         searchField.getAllStyles().merge(searchStyle); // Fusionner le style personnalisé avec les styles existants
         searchField.setMaxSize(searchFieldMaxWidth); // Définir la largeur maximale
+                Button PDF = new Button("PDF");
 
-        list.add(searchField);
-            
+
+
+                
+                
+                
+        list.addAll(searchField,PDF);
         
         
         for (com.mycomany.entities.don don : dons) {
@@ -90,6 +105,35 @@ favorisButton.addActionListener(e -> {
     favorisManager.closeDatabase();
     favorisButton.setEnabled(false); // Désactiver le bouton après l'ajout aux favoris
 });
+
+
+PDF.addActionListener(e -> { 
+   
+                try {
+                    Document document = new Document();
+                    String outputPath = "file:///C:/xampp4/pdff/don" + don.getType() + ".pdf";
+                    PdfWriter.getInstance(document, FileSystemStorage.getInstance().openOutputStream(outputPath));
+                    
+                    document.open();
+                    
+                    document.add(new Paragraph("Fiche de evenement"));
+                    document.add(new Paragraph("Nom :" + don.getType()));
+                    document.add(new Paragraph("Type :" + don.getType()));
+                    document.add(new Paragraph("Description :" + don.getType()));
+                    
+                    document.close();
+                    Dialog.show("Enregistré", "", "", "OK");
+                    
+                    Log.p("PDF file successfully created!");
+                } catch (IOException ex) {
+                    Logger.getLogger(Showdon.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DocumentException ex) {
+                    Logger.getLogger(Showdon.class.getName()).log(Level.SEVERE, null, ex);
+                }
+   
+});
+
+
             list.addAll(sp,favorisButton);
 
          

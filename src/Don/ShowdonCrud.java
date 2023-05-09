@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class ShowdonCrud extends Form {
 
     public ShowdonCrud(Form previous) {
-         setTitle("Liste des don");
+         setTitle("Liste des dons de " /* seesion*/);
         setLayout(BoxLayout.y());
         ArrayList<com.mycomany.entities.don> dons = ServiceDon.getInstance().affichagedonUser(30);
         Container list = new Container(BoxLayout.y());
